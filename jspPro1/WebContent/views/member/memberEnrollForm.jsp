@@ -102,7 +102,11 @@
 			<br>
 			
 			<div class="btns" align="center">
-				<button type="button" id="goMain" onclick="history.go(-1)">메인으로</button>
+				<!-- 여기서 history.go(-1) 하면 다시 회원가입할 때 문제 생김 
+					history.back()하면 이전 상태로 돌아가는거라 다시 회원가입이 성공한 직후 상태가 됨
+					그래서 문제가 발생할 수 있음 바로 직전 상태가 특정 결과가 나온 상태가 아닐 때만 사용해주어야함
+				-->
+				<button type="button" id="goMain" onclick="location.href = 'http://localhost:9090/jspPro1/index.jsp'">메인으로</button>
 				
 				<button type="submit" id="joinBtn">가입하기</button>
 				
