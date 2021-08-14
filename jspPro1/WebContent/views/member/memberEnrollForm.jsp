@@ -109,7 +109,7 @@
 				</tr>
 			</table>
 			<br>
- 
+  
 			<div class="btns" align="center">
 				<!-- 여기서 history.go(-1) 하면 다시 회원가입할 때 문제 생김 
 					history.back()하면 이전 상태로 돌아가는거라 다시 회원가입이 성공한 직후 상태가 됨
