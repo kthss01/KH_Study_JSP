@@ -13,16 +13,16 @@ import com.kh.member.model.service.MemberService;
 import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class MemberInsertServlet
+ * Servlet implementation class MemberUpdateServlet
  */
-@WebServlet("/insert.me")
-public class MemberInsertServlet extends HttpServlet {
+@WebServlet("/update.me")
+public class MemberUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public MemberInsertServlet() {
+	public MemberUpdateServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -34,15 +34,13 @@ public class MemberInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		request.setCharacterEncoding("UTF-8");
-
+//		request.setCharacterEncoding("UTF-8");
+		
 		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
 		String userName = request.getParameter("userName");
 		String phone = request.getParameter("phone");
 		String email = request.getParameter("email");
 		String address = request.getParameter("address");
-
 		String[] interests = request.getParameterValues("interest");
 
 		String interest = "";
@@ -50,15 +48,15 @@ public class MemberInsertServlet extends HttpServlet {
 			interest = String.join(",", interests);
 		}
 
-		Member mem = new Member(userId, userPwd, userName, phone, email, address, interest);
+		Member updateMem = new MemberService()
+				.updateMember(new Member(userId, userName, phone, email, address, interest));
 
-		int result = new MemberService().insertMember(mem);
-
-		if (result > 0) {
-			request.getSession().setAttribute("msg", "회원가입 성공");
+		if (updateMem != null) {
+			request.getSession().setAttribute("msg", "성공적으로 회원정보를 수정하였습니다.");
+			request.getSession().setAttribute("loginUser", updateMem);
 			response.sendRedirect(request.getContextPath());
 		} else {
-			request.setAttribute("msg", "회원가입에 실패했습니다");
+			request.setAttribute("msg", "업데이트에 실패했습니다");
 
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			view.forward(request, response);

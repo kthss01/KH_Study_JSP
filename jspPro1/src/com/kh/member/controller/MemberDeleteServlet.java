@@ -11,19 +11,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.kh.member.model.service.MemberService;
-import com.kh.member.model.vo.Member;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class MemberDeleteServlet
  */
-@WebServlet("/login.me")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/delete.me")
+public class MemberDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public MemberDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,30 +32,21 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		// 한글이 있을 경우 해야함
-//		request.setCharacterEncoding("UTF-8");
-		
-		// name에 맞춰서 잘 써야한다고함 시험에서 많이 틀리는 부분
 		String userId = request.getParameter("userId");
-		String userPwd = request.getParameter("userPwd");
 		
-		String originPwd = (String) request.getParameter("originPwd");
+		int result = new MemberService().deleteMember(userId);
 		
-		Member loginUser = new MemberService().loginMember(userId, userPwd);
-		
-		if (loginUser != null) {
+		if (result > 0) {
 			HttpSession session = request.getSession();
-			
-			session.setAttribute("loginUser", loginUser);
-			session.setAttribute("originPwd", originPwd);
-			
+			session.removeAttribute("loginUser");
+			session.setAttribute("msg", "회원 탈퇴가 완료되었습니다. 복구 관련 사항은 관리자에게 문의하세요");
 			response.sendRedirect(request.getContextPath());
 		} else {
-			request.setAttribute("msg", "로그인에 실패했습니다");
-			
+			request.setAttribute("ms", "회원 탈퇴에 실패했습니다.");
 			RequestDispatcher view = request.getRequestDispatcher("views/common/errorPage.jsp");
 			view.forward(request, response);
 		}
+		
 	}
 
 	/**
