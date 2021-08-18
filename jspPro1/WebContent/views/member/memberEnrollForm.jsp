@@ -8,9 +8,11 @@
 <style>
 .outer {
 	background: black;
-	width: 600px;
-	height: 500px;
-	margin-top: 50px;
+	/*width:800px;
+	height:500px;*/
+	width: 60%;
+	height: 400px;
+	/*margin-top: 50px;*/
 	margin-left: auto;
 	margin-right: auto;
 	color: white;
@@ -44,7 +46,7 @@
 	<%@ include file="../common/menubar.jsp"%>
 
 	<div class="outer">
-		<br>
+		<!-- <br> -->
 
 		<h2 align="center">회원가입</h2>
 

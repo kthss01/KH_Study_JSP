@@ -8,6 +8,7 @@
 
 	String msg = (String) session.getAttribute("msg");
 	
+	String contextPath = request.getContextPath();
 %>
 
 <!DOCTYPE html>
@@ -20,9 +21,11 @@
 
 <style>
 body {
-	background: url('<%=request.getContextPath()%>/resources/images/i.png')
+	background: url('<%=request.getContextPath()%>/resources/images/bg2.jpg')
 		no-repeat;
 	background-size: cover;
+	background-position: center center;
+	/*background-size: cover;*/
 }
 
 /* 로그인 폼 관련 스타일*/
@@ -42,6 +45,11 @@ body {
 	background-color: orangered;
 }
 
+#userInfo {
+	background-color: black;
+	color: gray;
+}
+
 #userInfo a {
 	text-decoration: none;
 	color: white;
@@ -49,7 +57,8 @@ body {
 
 /* 메뉴영역 관련 스타일*/
 .navWrap {
-	background-color: black;
+	/*background-color: black;*/
+	background-color: transparent;
 	width: 100%;
 	height: 50px
 }
@@ -77,10 +86,10 @@ body {
 
 <script>
 	$(function() {
-		var msg = "<%= msg %>";
+		var msg = "<%=msg%>";
 		if (msg !== "null") {
 			alert(msg);
-			<% session.removeAttribute("msg"); %>
+			<%session.removeAttribute("msg");%>
 		} 
 	});
 	
@@ -130,23 +139,53 @@ body {
 		%>
 		<div id="userInfo">
 			<b style="color: white;"><%=loginUser.getUserName()%> 님 </b> 의 방문을
-			환영합니다. <br>
-			<br>
+			환영합니다. <br> <br>
 			<div class="btns" align="center">
-				<a href="<%=request.getContextPath()%>/mypage.me">마이페이지</a> 
-				<a href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
+				<a href="<%=request.getContextPath()%>/mypage.me">마이페이지</a> <a
+					href="<%=request.getContextPath()%>/logout.me">로그아웃</a>
 			</div>
 		</div>
 		<%
 			}
 		%>
 	</div>
-	
+
 	<script type="text/javascript">
 		function enrollPage() {
-			location.href = "<%=request.getContextPath() %>/enrollForm.me";
+			location.href = "<%=request.getContextPath()%>/enrollForm.me";
 		}
 	
+	</script>
+
+
+	<br clear="both">
+
+	<div class="navWrap">
+		<div class="nav">
+			<div class="menu" onclick="goMain();">HOME</div>
+			<div class="menu" onclick="goNotice();">공지사항</div>
+			<div class="menu" onclick="goBoard();">게시판</div>
+			<div class="menu" onclick="goThumbnail();">사진게시판</div>
+
+		</div>
+	</div>
+
+	<script>
+			function goMain(){
+				location.href="<%=request.getContextPath()%>";
+			}
+		
+			function goNotice(){
+				location.href="<%=request.getContextPath()%>/list.no";
+			}
+			
+			function goBoard(){
+				location.href="<%=request.getContextPath()%>/list.bo";
+			}
+			
+			function goThumbnail(){
+				location.href="<%=request.getContextPath()%>/list.th";
+		}
 	</script>
 </body>
 </html>

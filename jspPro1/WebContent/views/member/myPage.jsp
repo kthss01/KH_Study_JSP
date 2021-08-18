@@ -38,9 +38,11 @@
 <style>
 	.outer{
 		background:black;
-		width:600px;
+		/*width:600px;
 		height:500px;
-		margin-top:50px;
+		margin-top:50px;*/
+		width: 80%;
+		height: 400px;
 		margin-left:auto;
 		margin-right:auto;
 		color:white;

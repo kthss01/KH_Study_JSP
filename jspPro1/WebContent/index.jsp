@@ -7,9 +7,11 @@
 <title>include</title>
 <style>
 	.topList {
-		width: 1000px;
+		/*width: 1000px;*/
+		width: 80%;
 		height: 400px;
 		background: black;
+		/*background: transparent;*/
 		color: white;
 		margin: auto;
 	}
