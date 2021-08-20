@@ -13,7 +13,7 @@
 		background:black;
 		color:white;
 		margin:auto;
-		margin-top:50px;
+		/*margin-top:50px;*/
 	}
 	
 	#insertForm>table{

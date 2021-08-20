@@ -82,4 +82,94 @@ public class BoardService {
 		return at;
 	}
 
+	public int deleteBoard(int bid) {
+		Connection conn = getConnection();
+		
+		int result1 = new BoardDao().deleteBoard(conn, bid);
+		int result2 = new BoardDao().deleteAttachment(conn, bid);
+		
+		if (result1 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result1;
+	}
+
+	public Board selectUpdateBoard(int bno) {
+		Connection conn = getConnection();
+		
+		Board b = new BoardDao().selectBoard(conn, bno);
+		
+		close (conn);
+		
+		return b;
+	}
+
+	public int updateBoard(Board b, Attachment at) {
+		Connection conn = getConnection();
+		
+		int result1 = new BoardDao().updateBoard(conn, b);
+		int result2 = 1;
+		
+		if (at != null) {
+			if (at.getFileNo() != 0) {
+				result2 = new BoardDao().updateAttachment(conn, at);
+			} else {
+				result2 = new BoardDao().insertNewAttachment(conn, at);
+			}
+		}
+		
+		if (result1 > 0 && result2> 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result1 * result2;
+	}
+
+	public ArrayList<Board> selectThList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectThList(conn);
+		
+		close (conn);
+		
+		return list;
+	}
+
+	public ArrayList<Attachment> selectThumbnail(int bid) {
+		Connection conn = getConnection();
+		
+		ArrayList<Attachment> list = new BoardDao().selectThumbnail(conn, bid);
+		
+		close (conn);
+		
+		return list;
+	}
+
+	public int insertThumbnail(Board b, ArrayList<Attachment> fileList) {
+		Connection conn = getConnection();
+		
+		
+		int result1 = new BoardDao().insertThBoard(conn, b);
+		int result2 = new BoardDao().insertAttachment(conn, fileList);
+		
+		if (result1 > 0 && result2 > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		
+		close(conn);
+		
+		return result1 * result2;
+	}
+
 }
