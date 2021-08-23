@@ -1,6 +1,9 @@
 package com.kh.member.model.service;
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
+import static com.kh.common.JDBCTemplate.commit;
+import static com.kh.common.JDBCTemplate.getConnection;
+import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 
@@ -95,6 +98,16 @@ public class MemberService {
 		close(conn);
 
 		return updateMem;
+	}
+
+	public int idCheck(String userId) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDao().idCheck(conn, userId);
+		
+		close(conn);
+		
+		return result;
 	}
 
 }

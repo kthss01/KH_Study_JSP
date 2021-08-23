@@ -120,7 +120,7 @@
 				<button type="button" id="goMain"
 					onclick="location.href =<%=request.getContextPath()%>">메인으로</button>
 
-				<button type="submit" id="joinBtn">가입하기</button>
+				<button type="submit" id="joinBtn" disabled>가입하기</button>
 
 			</div>
 		</form>
@@ -151,6 +151,37 @@
 		
 	}
 	
+	function checkId() {
+		const userId = $('#enrollForm input[name=userId]');
+		if (userId.val() == "") {
+			alert("아이디를 입력해주세요");
+			return false;
+		}
+		
+		$.ajax({
+			url : "idCheck.me",
+			type : "post",
+			data : {
+				userId : userId.val()
+			},
+			success : function(result) {
+				if (result == "fail") {
+					alert("사용할 수 없는 아이디입니다.");
+					userId.focus();
+				} else {
+					if (confirm("사용 가능한 아이디입니다. 사용 하시겠습니까?")) {
+						userId.attr("readonly", "true");
+						$("#joinBtn").removeAttr("disabled");
+					} else {
+						userId.focus();
+					}
+				}
+			},
+			error : function() {
+				console.log("서버 통신 실패");
+			}
+		});
+	}
 	
 	</script>
 	<%@ include file="../common/footer.jsp"%>
