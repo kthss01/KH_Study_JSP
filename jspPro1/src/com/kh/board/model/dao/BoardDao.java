@@ -16,6 +16,7 @@ import java.util.Properties;
 import com.kh.board.model.vo.Attachment;
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.PageInfo;
+import com.kh.board.model.vo.Reply;
 
 public class BoardDao {
 
@@ -500,6 +501,102 @@ public class BoardDao {
 		}
 		
 		return result;
+	}
+
+	public int insertReply(Connection conn, Reply r) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		
+		String sql = prop.getProperty("insertReply");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1,  r.getReplyContent());
+			pstmt.setInt(2,  r.getRefBoardId());
+			pstmt.setString(3,  r.getReplyWriter());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Reply> selectRList(Connection conn, int bId) {
+		
+		ArrayList<Reply> list = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectRlist");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, bId);
+			
+			list = new ArrayList<Reply>();
+			
+			rset = pstmt.executeQuery();
+			
+			while (rset.next()) {
+				list.add(new Reply(
+							rset.getInt("REPLY_NO"), 
+							rset.getString("REPLY_CONTENT"), 
+							rset.getString("USER_ID"), 
+							rset.getDate("CREATE_DATE")));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
+	}
+
+	public ArrayList<Board> selectTopList(Connection conn) {
+		ArrayList<Board> list = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectTopList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			list = new ArrayList<Board>();
+			
+			rset = pstmt.executeQuery();
+			
+			while (rset.next()) {
+				Board b = new Board();
+				b.setBoardNo(rset.getInt("BOARD_NO"));
+				b.setBoardTitle(rset.getString("BOARD_TITLE"));
+//				b.setCount(rset.getInt("COUNT"));
+				b.setTitleImg(rset.getString("CHANGE_NAME"));
+				
+				list.add(b);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 }

@@ -70,7 +70,7 @@ public class jQAjaxServlet4 extends HttpServlet {
 			}
 		}
 		
-		// 브라우저로 json 객체 전ㅅㅇ
+		// 브라우저로 json 객체 전송
 		response.setContentType("application/json; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		

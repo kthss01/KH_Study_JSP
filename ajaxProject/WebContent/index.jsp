@@ -202,7 +202,145 @@
 						console.log(obj);
 					},
 					error : function() {
-						$('#textArea4').text('ajax 통신 실패');
+						$('#textArea4').val('ajax 통신 실패');
+					}
+				});
+			});
+		});
+	</script>
+	
+	<h3>5. 서버로 기본형 데이터 전송 후, 응답을 리스트 형태로 받기</h3>
+	
+	<h4>선택한 성별을 가진 모든 회원정보를 가지고 오기</h4>
+	성별 :
+	남 <input type="radio" name="chk_gender5" value="남" checked>
+	여 <input type="radio" name="chk_gender5" value="여">
+	<button id="btn5">조회</button>
+	<textarea id="textArea5" rows="5" cols="30"></textarea>
+	
+	<script>
+		$(function() {
+			$("#btn5").click(function() {
+				const gen = $('input[name="chk_gender5"]:checked').val();
+				
+				console.log(gen);
+				$.ajax({
+					url : "jqTest5.do",
+					data : {
+						gender : gen
+					},
+					type: "get",
+					success : function(list) {
+						
+						console.log(list);
+						let result = "";
+						$.each(list, function(i) {
+							result += list[i].no + " / "
+								+ list[i].name + " / "
+								+ list[i].age + " / "
+								+ list[i].gender + " \n";
+						});
+						
+						$("#textArea5").val(result);
+					},
+					error : function(e) {
+						$("#textArea5").val("ajax 통신 실패");
+					}
+				});
+			});
+		});
+	</script>
+	
+	<h3>6.서버로 데이터 전송후 , 응답을 맵(map)형태로 받아서 테이블에 출력하기</h3>
+	<h4>조회하고자 하는 회원의 이름 키워드를 입력해서 조회되는 회원들 정보와 전달된 키워드를 받아오기 </h4>
+	
+	
+	이름<input type="text" id="input6" width=300>
+	<button id="btn6">검색</button>
+	<table id="memberTable6" border="1" style="text-align:center">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>이름</th>
+				<th>나이</th>
+				<th>성별</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+		</tbody>
+	
+	
+	</table>
+	<script>
+	
+		$(function() {
+			$("#btn6").click(function() {
+				const input = $('#input6').val();
+				
+				$.ajax({
+					url : "jqTest6.do",
+					data: {
+						keyword : input
+					},
+					type : "get",
+					success : function(map) {
+						console.log(map);	
+						console.log(map["jArr"]);
+						
+						const $tableBody = $("#memberTable6 tbody");
+						
+						$tableBody.html("");
+						$.each(map["jArr"], function(index, value) {
+							console.log(value);
+							
+							const $tr = $("<tr>");
+							const $noTd = $("<td>").text(value.no); // <td>1</td>
+							const $nameTd = $("<td>").text(value.name); // <td>1</td>
+							const $ageTd = $("<td>").text(value.age); // <td>1</td>
+							const $genTd = $("<td>").text(value.gender); // <td>1</td>
+							
+							$tr.append($noTd);
+							$tr.append($nameTd);
+							$tr.append($ageTd);
+							$tr.append($genTd);
+
+							$tableBody.append($tr);
+						});
+					},
+					error : function(e) {
+						console.log("ajax 통신 실패");
+					}
+				});
+			});			
+		});
+	
+	</script>
+	
+	<h3>7.Gson을 이용한 List 반환</h3>
+	<button id="gbtn">list 가져오기</button>
+	<textarea id="textArea7" rows="10" cols="30"></textarea>
+	
+	<script>
+		$(function() {
+			$('#gbtn').click(function() {
+				$.ajax({
+					url : "jqTest7.do",
+					type : "get",
+					success : function(list) {
+						console.log(list);
+						let result = "";
+						$.each(list, function(i) {
+							result += list[i].no + " / "
+								+ list[i].name + " / "
+								+ list[i].age + " / "
+								+ list[i].gender + " \n";
+						});
+						
+						$("#textArea7").val(result);
+					},
+					error : function(e) {
+						$("#textArea7").val("ajax 통신 실패");
 					}
 				});
 			});
