@@ -7,23 +7,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JDBCTemplate {
-
-	public static Connection getConnetion() {
-		Connection conn = null;
-		
-		String driver = "oracle.jdbc.driver.OracleDriver";
-		String url = "jdbc:oracle:thin@127.0.0.1:1521:XE";
-		String user = "server";
-		String password = "server";
-		
-		try {
-			Class.forName(driver);
+	
+	private static Connection conn = null;
+	
+	public static Connection getConnection() {
+		if (conn == null) {
+			String driver = "oracle.jdbc.driver.OracleDriver";
+			String url = "jdbc:oracle:thin:@128.168.25.30:1512:XE";
+			String user = "oracle";
+			String password = "oracle";
 			
-			conn = DriverManager.getConnection(url, user, password);
-			
-			conn.setAutoCommit(false);
-		} catch (ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
+			try {
+				Class.forName(driver);
+				conn = DriverManager.getConnection(url, user, password);
+				conn.setAutoCommit(false);
+			} catch (ClassNotFoundException | SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return conn;
@@ -31,9 +31,8 @@ public class JDBCTemplate {
 	
 	public static void close(Connection conn) {
 		try {
-			if(conn != null && !conn.isClosed()) {
+			if (conn != null && !conn.isClosed())
 				conn.close();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -41,9 +40,8 @@ public class JDBCTemplate {
 	
 	public static void close(ResultSet rs) {
 		try {
-			if(rs != null && !rs.isAfterLast()) {
+			if (rs != null && !rs.isAfterLast())
 				rs.close();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -51,9 +49,8 @@ public class JDBCTemplate {
 	
 	public static void close(Statement stmt) {
 		try {
-			if(stmt != null && !stmt.isClosed()) {
+			if (stmt != null && !stmt.isClosed())
 				stmt.close();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -61,9 +58,8 @@ public class JDBCTemplate {
 	
 	public static void commit(Connection conn) {
 		try {
-			if(conn != null && !conn.isClosed()) {
+			if (conn != null && !conn.isClosed())
 				conn.commit();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -71,9 +67,8 @@ public class JDBCTemplate {
 	
 	public static void rollback(Connection conn) {
 		try {
-			if(conn != null && !conn.isClosed()) {
+			if (conn != null && !conn.isClosed())
 				conn.rollback();
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
