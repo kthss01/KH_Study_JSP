@@ -10,7 +10,7 @@
 	<%-- 지시자 include 써서 하는 방법 --%>
 	<%-- <%@ include file="common.jsp" %> --%>
 	
-	<jsp:include page="common.jsp"/>a
+	<jsp:include page="common.jsp"/>
 	
 	<h1 align="center">testAction.jsp 내용입니다.</h1>
 	
