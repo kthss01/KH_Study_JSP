@@ -44,6 +44,7 @@ public class BoardWriteServlet extends HttpServlet {
 			
 			request.getRequestDispatcher(request.getContextPath() + "/views/common/error.jsp").forward(request, response);
 		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
