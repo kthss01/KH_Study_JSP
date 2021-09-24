@@ -21,7 +21,7 @@
 	<% request.setAttribute("name", "유재석"); %>
 	<%-- request.getParameter로 받을 수 있음 --%>
 	<%-- <jsp:forward> </jsp:forward>이 안에 주석 쓰면 에러남 --%>
-	<jsp:forward page="testForward.jsp">d
+	<jsp:forward page="testForward.jsp">
 		<jsp:param value="rowun" name="name"/> 
 	</jsp:forward>
 </body>
