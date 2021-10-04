@@ -6,6 +6,7 @@ import static com.kh.common.JDBCTemplate.getConnection;
 import static com.kh.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.kh.board.model.dao.BoardDao;
 import com.kh.board.model.vo.Board;
@@ -42,6 +43,16 @@ public class BoardService {
 		close(conn);
 		
 		return result;
+	}
+
+	public ArrayList<Board> selectBoardList() {
+		Connection conn = getConnection();
+		
+		ArrayList<Board> list = new BoardDao().selectBoardList(conn);
+		
+		close(conn);
+		
+		return list;
 	}
 
 }

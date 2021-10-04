@@ -1,10 +1,13 @@
 package com.kh.board.model.dao;
 
-import static com.kh.common.JDBCTemplate.*;
+import static com.kh.common.JDBCTemplate.close;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.kh.board.model.vo.Board;
 
@@ -60,6 +63,40 @@ public class BoardDao {
 		}
 		
 		return result;
+	}
+
+	public ArrayList<Board> selectBoardList(Connection conn) {
+		
+		ArrayList<Board> list = new ArrayList<>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = "SELECT * FROM BOARD";
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			
+			while (rset.next()) {
+				int no = rset.getInt("NO");
+				String writer = rset.getString("WRITER");
+				String title = rset.getString("TITLE");
+				String content = rset.getString("CONTENT");
+				Date date = rset.getDate("DATE");
+				
+				list.add(new Board(no, title, writer, content, date));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return list;
 	}
 
 }

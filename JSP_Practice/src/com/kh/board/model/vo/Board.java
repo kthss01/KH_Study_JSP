@@ -1,11 +1,14 @@
 package com.kh.board.model.vo;
 
+import java.sql.Date;
+
 public class Board {
 
 	private int id;
 	private String title;
 	private String writer;
 	private String content;
+	private Date date;
 
 	public Board() {
 		// TODO Auto-generated constructor stub
@@ -24,6 +27,15 @@ public class Board {
 		this.title = title;
 		this.writer = writer;
 		this.content = content;
+	}
+
+	public Board(int id, String title, String writer, String content, Date date) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.writer = writer;
+		this.content = content;
+		this.date = date;
 	}
 
 	public int getId() {
