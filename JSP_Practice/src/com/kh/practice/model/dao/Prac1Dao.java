@@ -1,11 +1,13 @@
 package com.kh.practice.model.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.PageInfo;
@@ -108,5 +110,6 @@ public class Prac1Dao {
 		
 		return list;
 	}
+
 
 }
